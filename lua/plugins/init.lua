@@ -8,6 +8,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
+      require("nvchad.configs.lspconfig").defaults()
       require "configs.lspconfig"
     end,
   },
@@ -19,15 +20,13 @@ return {
 
   {
     "anuvyklack/windows.nvim",
+    lazy = false,
     dependencies = {
       "anuvyklack/middleclass",
       "anuvyklack/animation.nvim",
     },
     config = function()
-      vim.o.winwidth = 10
-      vim.o.winminwidth = 10
-      vim.o.equalalways = false
-      require("windows").setup()
+      require "configs.windows"
     end,
   },
 

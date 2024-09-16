@@ -1,24 +1,44 @@
--- load defaults i.e lua_lsp
-require("nvchad.configs.lspconfig").defaults()
+local configs = require "nvchad.configs.lspconfig"
 
-local lspconfig = require "lspconfig"
+local servers = {
+  lua_ls = {},
+  html = {},
+  awk_ls = {},
+  bashls = {},
+  ruff = {},
+  dockerls = {
+    languageserver = {
+      formatter = {
+        ignoreMultilineInstructions = true,
+      },
+    },
+  },
+  pyright = {
+    python = {
+      analysis = {
+        typeCheckingMode = "basic",
+        diagnosticMode = "workspace",
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+        diagnosticSettings = {
+          reportGeneralTypeIssues = true,
+          reportMissingImports = true,
+        },
+        -- formatting = {
+        --   provider = "autopep8",
+        --   options = {
+        --     maxLineLength = 120, -- Set your desired text width here
+        --   },
+        -- },
+      },
+    },
+  },
+}
 
--- EXAMPLE
-local servers = { "html", "cssls" }
-local nvlsp = require "nvchad.configs.lspconfig"
+for name, opts in pairs(servers) do
+  opts.on_init = configs.on_init
+  opts.on_attach = configs.on_attach
+  opts.capabilities = configs.capabilities
 
--- lsps with default config
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = nvlsp.on_attach,
-    on_init = nvlsp.on_init,
-    capabilities = nvlsp.capabilities,
-  }
+  require("lspconfig")[name].setup(opts)
 end
-
--- configuring single server, example: typescript
--- lspconfig.tsserver.setup {
---   on_attach = nvlsp.on_attach,
---   on_init = nvlsp.on_init,
---   capabilities = nvlsp.capabilities,
--- }
