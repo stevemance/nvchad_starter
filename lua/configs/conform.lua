@@ -5,6 +5,7 @@ local options = {
     rust = { "rustfmt", lsp_format = "fallback" },
     css = { "prettier" },
     html = { "prettier" },
+    cpp = { "clang-format" },
   },
 
   format_on_save = {

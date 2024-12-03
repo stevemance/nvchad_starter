@@ -6,6 +6,7 @@ local servers = {
   awk_ls = {},
   bashls = {},
   ruff = {},
+  clangd = {},
   dockerls = {
     languageserver = {
       formatter = {
